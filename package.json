@@ -1,0 +1,22 @@
+{
+  "name": "teamtailor-assignment",
+  "version": "0.0.1",
+  "main": "index.js",
+  "scripts": {
+    "start:dev": "tsnd src/app.ts"
+  },
+  "keywords": [],
+  "author": "Jakub Świerczek",
+  "license": "ISC",
+  "description": "A simple web application that allows the user to download data into a generated CSV file.",
+  "dependencies": {
+    "express": "^4.21.2",
+    "express-async-errors": "^3.1.1"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.0",
+    "@types/node": "^22.10.2",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.7.2"
+  }
+}
