@@ -108,7 +108,6 @@ export const fetchPage = async (url: string, page: number): Promise<{
             };
         });
 
-
         return {
             candidates,
             meta: data.meta
@@ -120,4 +119,19 @@ export const fetchPage = async (url: string, page: number): Promise<{
             throw error;
         }
     }
+};
+
+export const fetchAllPages = async (url: string): Promise<CandidateWithJobApplications[]> => {
+    let allData: CandidateWithJobApplications[] = [];
+    let currentPage = 1;
+    let totalPages = 1;
+
+    do {
+        const response = await fetchPage(url, currentPage);
+        allData = [...allData, ...response.candidates];
+        totalPages = response.meta["page-count"];
+        currentPage++;
+    } while (currentPage <= totalPages);
+
+    return allData;
 };
