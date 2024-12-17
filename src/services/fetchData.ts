@@ -1,76 +1,14 @@
-interface ApiResponse {
-    data: Candidate[];
-    included: JobApplication[];
-    meta: Meta;
-    links: PaginationLinks;
-}
-
-interface Candidate {
-    id: string;
-    type: string;
-    links: {
-        self: string;
-    };
-    attributes: {
-        "first-name": string;
-        "last-name": string;
-        email: string;
-    };
-    relationships: {
-        "job-applications": {
-            links: {
-                self: string;
-                related: string;
-            };
-            data: RelationshipData[];
-        };
-    };
-}
-
-interface JobApplication {
-    id: string;
-    type: string;
-    links: {
-        self: string;
-    };
-    attributes: {
-        "created-at": string;
-    };
-}
-
-interface RelationshipData {
-    type: string;
-    id: string;
-}
-
-interface Meta {
-    "record-count": number;
-    "page-count": number;
-}
-
-interface PaginationLinks {
-    first: string;
-    prev?: string;
-    next?: string;
-    last: string;
-}
-
-interface CandidateWithJobApplications {
-    id: string;
-    firstName: string;
-    lastName: string;
-    email: string;
-    jobApplications: {
-        id: string;
-        createdAt: string;
-    }[],
-}
+import {
+    ApiResponse,
+    CandidateWithJobApplications,
+    Meta,
+} from "../types/apiResponse";
+import {destructureCandidates} from "../utils/destructureCandidates";
 
 export const fetchPage = async (url: string, page: number): Promise<{
     candidates: CandidateWithJobApplications[],
     meta: Meta
 }> => {
-
     try {
         const response = await fetch(url + page, {
             method: "GET",
@@ -85,28 +23,7 @@ export const fetchPage = async (url: string, page: number): Promise<{
         }
 
         const data: ApiResponse = await response.json();
-
-        const candidates: CandidateWithJobApplications[] = data.data.map((candidate: Candidate): CandidateWithJobApplications => {
-            const {id, attributes: {'first-name': firstName, 'last-name': lastName, email}, relationships} = candidate;
-            const candidateJobRelationshipData: RelationshipData[] = relationships['job-applications'].data;
-
-            const jobApplications = candidateJobRelationshipData.map((jobApp: RelationshipData) => {
-                const jobAppDetails: JobApplication = data.included.find(((item: JobApplication) => item.id === jobApp.id && item.type === 'job-applications')) as JobApplication;
-
-                return {
-                    id: jobApp.id,
-                    createdAt: jobAppDetails?.attributes['created-at']
-                };
-            })
-
-            return {
-                id,
-                firstName,
-                lastName,
-                email,
-                jobApplications
-            };
-        });
+        const candidates = destructureCandidates(data);
 
         return {
             candidates,
@@ -123,8 +40,8 @@ export const fetchPage = async (url: string, page: number): Promise<{
 
 export const fetchAllPages = async (url: string): Promise<CandidateWithJobApplications[]> => {
     let allData: CandidateWithJobApplications[] = [];
-    let currentPage = 1;
-    let totalPages = 1;
+    let currentPage: number = 1;
+    let totalPages: number = 1;
 
     do {
         const response = await fetchPage(url, currentPage);

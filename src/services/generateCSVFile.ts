@@ -1,10 +1,10 @@
 import {writeFile} from "fs/promises";
 import {fetchAllPages} from "./fetchData";
 import {json2csv} from 'json-2-csv';
+import {URL} from '../config/constants'
 
 export const generateCSVFile = async () => {
     try {
-        const URL = "https://api.teamtailor.com/v1/candidates?fields[candidates]=first-name,last-name,email,job-applications&include=job-applications&fields[job-applications]=created-at&page[size]=30&page[number]="
         const data = await fetchAllPages(URL)
 
         const csv = json2csv(data, {
