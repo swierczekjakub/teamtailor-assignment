@@ -1,7 +1,7 @@
 # teamtailor-assignment<!-- Table of contents -->
 # :notebook_with_decorative_cover: Table of contents
 
-- [About the project](#book_about-the-project)
+- [About the project](#open_book_about-the-project)
 - [Technologies used](#space_invader-technologies-used)
 - [Project setup](#key-project-setup)
 - [Running the project](#toolbox-running-the-project)
