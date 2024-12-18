@@ -6,7 +6,6 @@ import {URL} from '../config/constants'
 export const generateCSVFile = async () => {
     try {
         const data = await fetchAllPages(URL)
-
         const csv = json2csv(data, {
             delimiter: {field: ';'},
             expandArrayObjects: true,
