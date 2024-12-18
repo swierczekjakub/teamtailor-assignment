@@ -4,12 +4,23 @@ import {
     Meta,
 } from "../types/apiResponse";
 import {destructureCandidates} from "../utils/destructureCandidates";
+import {Cache} from "../utils/cache"
+
+const pageCache = new Cache<{
+    candidates: CandidateWithJobApplications[],
+    meta: Meta
+}>();
 
 export const fetchPage = async (url: string, page: number): Promise<{
     candidates: CandidateWithJobApplications[],
     meta: Meta
 }> => {
     try {
+        const cachedData = pageCache.get(page);
+        if (cachedData) {
+            return cachedData.data;
+        }
+
         const response = await fetch(url + page, {
             method: "GET",
             headers: {
@@ -25,10 +36,14 @@ export const fetchPage = async (url: string, page: number): Promise<{
         const data: ApiResponse = await response.json();
         const candidates = destructureCandidates(data);
 
-        return {
+        const result = {
             candidates,
             meta: data.meta
         }
+
+        pageCache.set(page, result);
+
+        return result;
 
     } catch (error) {
         {

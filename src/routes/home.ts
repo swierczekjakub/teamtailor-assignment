@@ -5,6 +5,7 @@ import {Router} from "express";
 export const homeRouter = Router();
 
 homeRouter.get('/', async (req, res) => {
-    const data = await fetchAllPages(URL);
-    res.json(data);
+		const data = await fetchAllPages(URL);
+		res.status(200);
+		res.json(data);
 })
