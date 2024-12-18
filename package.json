@@ -1,6 +1,6 @@
 {
   "name": "teamtailor-assignment",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "main": "index.js",
   "scripts": {
     "start": "tsnd src/app.ts"
