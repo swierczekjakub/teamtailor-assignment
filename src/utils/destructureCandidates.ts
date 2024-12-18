@@ -9,6 +9,9 @@ import {
 export const destructureCandidates = (data: ApiResponse): CandidateWithJobApplications[] => {
     return data.data.map((candidate: Candidate): CandidateWithJobApplications => {
         const {id, attributes: {'first-name': firstName, 'last-name': lastName, email}, relationships} = candidate;
+        const firstNameStr = String(firstName);
+        const lastNameStr = String(lastName);
+
         const candidateJobRelationshipData: RelationshipData[] = relationships['job-applications'].data;
 
         const jobApplications = candidateJobRelationshipData.map((jobApp: RelationshipData) => {
@@ -22,8 +25,8 @@ export const destructureCandidates = (data: ApiResponse): CandidateWithJobApplic
 
         return {
             id,
-            firstName,
-            lastName,
+            firstName: firstNameStr,
+            lastName: lastNameStr,
             email,
             jobApplications
         };
