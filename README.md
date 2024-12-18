@@ -16,7 +16,7 @@ A simple web application that allows the user to download data into a generated 
 ## :space_invader: Technologies used
 
   <p><a href="https://www.typescriptlang.org/">Typescript</a></p>
-  <p><a href="https://www.mysql.com/">MySQL</a></p>
+  <p><a href="https://nextjs.org/">Next.js</a></p>
   <p><a href="https://expressjs.com/">Express.js</a></p>
 
 <!-- Project setup -->
