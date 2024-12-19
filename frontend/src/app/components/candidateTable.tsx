@@ -9,7 +9,6 @@ export const CandidateTable = ({candidatesData}: CandidateTableProps) => {
     const tdClass = "border border-gray-300 px-4 py-2"
     const thClass = "text-left" + tdClass;
     const getFormattedDate = (date: string) => {
-        // console.log({date, moment: moment(date, )})
         return moment(date).format("DD-MM-YYYY hh:mm:ss")
     }
 
